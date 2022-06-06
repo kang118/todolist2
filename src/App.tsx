@@ -1,15 +1,13 @@
-import React, {FC, useState, ChangeEvent, useEffect} from 'react';
+import React from 'react';
 import './App.css';
-import TodoTask from './Components/TodoTask';
-import { ITask } from './Interfaces';
 import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Link
 } from "react-router-dom"
 import { TodoPage } from './Pages/TodoPage';
-import { AboutPage } from './Pages/AboutPage';
+import { Show } from './Pages/Show';
+import { EditPg } from './Pages/EditPg';
 
   function App() {
 
@@ -18,9 +16,8 @@ import { AboutPage } from './Pages/AboutPage';
         <Router>
           <Routes>
             <Route path = '/' element={<TodoPage />} />
-            <Route path = '/about' element={<AboutPage />} />
-            {/* <Route path = '/:id' element={<Show />} />
-            <Route path = '/edit/:id' element={<EditPg />} /> */}
+            <Route path = '/:id' element={<Show />} />
+            <Route path = '/edit/:id' element={<EditPg />} />
           </Routes>
         </Router>
       </div>
