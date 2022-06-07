@@ -12,6 +12,7 @@ export const TodoPage = () => {
       if(response.ok) {
         console.log(response)
         return response.json()
+        //testing branch config
       }
     }).then(data => {
       console.log(data)
