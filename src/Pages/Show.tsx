@@ -3,16 +3,30 @@ import { Delete } from "../Components/delete";
 import { useParams, Link } from "react-router-dom";
 import { Edit } from "../Components/edit";
 import { iTodo } from "../Interfaces";
+import axios from "axios";
 
 export const Show = () => {
 
     const { id } = useParams<string>()
     const [todo, setTodo] = useState<Array<iTodo>>([])
 
+    const instance = axios.create({
+        baseURL: `http://localhost:3000/`
+    })
+    
     useEffect(()=> {
         console.log({id})
-        fetch(`/api/${ id }`).then(response => response.json()).then(data => setTodo(data))
+        instance.get(`/api/${ id }`).then(res => {
+            console.log(res.data)
+            setTodo(res.data)
+        })
     }, [id])
+
+    // useEffect(()=> {
+    //     console.log({id})
+    //     fetch(`/api/${ id }`).then(response => response.json()).then(data => setTodo(data))
+    // }, [id])
+
     return(
         <div>
             <br></br>
