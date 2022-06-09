@@ -1,6 +1,8 @@
+import Button from "@mui/material/Button";
 import axios from "axios";
 import React from "react";
 import  { useNavigate } from 'react-router-dom';
+
 
 interface Props {
     id: string
@@ -34,7 +36,8 @@ export const Delete = ({id}:Props) => {
     }
     return (
         <>
-            <button onClick={deleteTodo}>Delete</button>
+            {/* <button onClick={deleteTodo}>Delete</button> */}
+            <Button onClick={deleteTodo} variant ="contained" color="error">Done</Button>
         </>
     )
 }

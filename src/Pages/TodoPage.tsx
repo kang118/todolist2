@@ -1,7 +1,13 @@
+import { Box } from '@mui/material';
+import { Container } from '@mui/system';
 import axios from 'axios';
 import React, {useState, ChangeEvent, useEffect} from 'react';
 import { Card } from '../Components/card';
 import { iTodo } from '../Interfaces';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import { Typography } from '@mui/material';
+import {Login} from '../Components/Login';
 
 export const TodoPage = () => {
 
@@ -36,10 +42,15 @@ export const TodoPage = () => {
   }
 
   const addTask = async () => {
-    let res = await instance.post('/api/create', {content: task})
-    console.log(res)
-    setTask('')
-    getLatestTasks()
+    if (task == "") {
+      // to make sure task is not empty
+      console.log("submit fail")
+    } else {
+      let res = await instance.post('/api/create', {content: task})
+      console.log(res)
+      setTask('')
+      getLatestTasks()
+    }
   }
 
   // const addTask = () => {
@@ -76,15 +87,31 @@ export const TodoPage = () => {
 
   return (
   <>
+    <div className="logstate">
+      <Login/>
+    </div>
     <div className="header">
-        <div className='inputContainer'>
-          <input type="text" placeholder='Task..' name='task' value={task} onChange={handleChange} />
-        </div>
-        <button onClick={addTask}>Add to List</button>
+      <Container maxWidth="sm">
+        <Typography variant='h2' component='h2' align='center'>
+            {/* <div className='inputContainer'>
+            <input type="text" placeholder='Task..' name='task' value={task} onChange={handleChange} />
+            </div> */}
+          <br></br>
+          <TextField required id="filled-required" placeholder="Task.." value={task} onChange={handleChange} 
+          style={{
+            backgroundColor: "white"
+          }}/>
+          {/* <button onClick={addTask}>Add to List</button> */}
+          <br></br>
+          <Button onClick={addTask} variant ="contained" color="primary">Add to List</Button>
+        </Typography>
+      </Container>
     </div>
     <div className="todoList">
-        <hr></hr>
-        <Card listOfTodos={todoList}/>
+        <br></br>
+        <Typography variant='h6' component='h3' align='center'>
+          <Card listOfTodos={todoList}/>  
+        </Typography>
     </div>
   </>
   );

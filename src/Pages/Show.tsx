@@ -4,6 +4,15 @@ import { useParams, Link } from "react-router-dom";
 import { Edit } from "../Components/edit";
 import { iTodo } from "../Interfaces";
 import axios from "axios";
+import { createSvgIcon } from '@mui/material/utils';
+import { Typography } from "@mui/material";
+import { Container } from "@mui/system";
+import { Login } from "../Components/Login";
+
+const HomeIcon = createSvgIcon(
+    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />,
+    'Home',
+  );
 
 export const Show = () => {
 
@@ -22,6 +31,10 @@ export const Show = () => {
         })
     }, [id])
 
+    const goHome = () => {
+        <Link to='/'>Back to Todo List</Link>
+    }
+
     // useEffect(()=> {
     //     console.log({id})
     //     fetch(`/api/${ id }`).then(response => response.json()).then(data => setTodo(data))
@@ -29,13 +42,26 @@ export const Show = () => {
 
     return(
         <div>
+            <div className="logstate">
+                <Login/>
+            </div>
             <br></br>
-            {todo.length > 0 && todo.map(data => <div key='id'>{data.content}</div>)}
-            <br></br>
-            <Delete id={ id! }/>
-            <Edit id={id!}/>
-            <hr></hr>
-            <Link to='/'>Back to Todo List</Link>
+            <Container>
+                <Typography variant="h5" component='h2' align='center'>
+                    <div className="todo">
+                        <br></br>
+                        {todo.length > 0 && todo.map(data => <div className='id' key='id'>{data.content}</div>)}
+                    </div>
+                    
+                <br></br>
+                <Delete id={id!}/>
+                <Edit id={id!}/>
+                <hr></hr>
+                
+                <Link to='/'><HomeIcon /></Link>
+                </Typography>
+            </Container>
+            
         </div>
     )
 }

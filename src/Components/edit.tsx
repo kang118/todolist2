@@ -1,3 +1,4 @@
+import { Button } from "@mui/material";
 import React from "react";
 import { useNavigate } from "react-router";
 
@@ -14,7 +15,8 @@ export const Edit = ({id}:Props) => {
     }
     return (
         <>
-            <button onClick={goToEdit}>Edit Task</button>
+            {/* <button onClick={goToEdit}>Edit Task</button> */}
+            <Button onClick={goToEdit} variant ="contained" color="success">Edit Task</Button>
         </>
     )
 }

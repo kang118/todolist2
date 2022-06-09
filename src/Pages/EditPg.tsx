@@ -2,7 +2,15 @@ import axios from "axios";
 import React, { useState, useEffect, ChangeEvent } from "react";
 import { useParams, Link } from "react-router-dom";
 import { iTodo } from "../Interfaces";
+import { Button, TextField } from "@mui/material";
+import { createSvgIcon } from '@mui/material/utils';
+import { Typography } from "@mui/material";
+import { Login } from "../Components/Login";
 
+const HomeIcon = createSvgIcon(
+    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />,
+    'Home',
+  );
 
 export const EditPg = () => {
 
@@ -52,10 +60,14 @@ export const EditPg = () => {
 
     const handleFormSubmit = async () => {
         console.log({id})
-        let res = await instance.post(`/api/edit/${id}`, {id: id, content: newTodo})
-        console.log(res)
-        setNewTodo('')
-        getLatestTodos()
+        if (newTodo == "") {
+            console.log("Submit error")
+        } else {
+            let res = await instance.post(`/api/edit/${id}`, {id: id, content: newTodo})
+            console.log(res)
+            setNewTodo('')
+            getLatestTodos()
+        }
     }
 
     const getLatestTodos = () => {
@@ -75,15 +87,26 @@ export const EditPg = () => {
 
     return(
         <>
-            <br></br>
-            {todo.length > 0 && todo.map(data => <div key='id'>{data.content}</div>)}
-            <br></br>           
-            <div className='inputContainer'>
-                <input type="text" placeholder='Task..' name='task' value={newTodo} onChange={handleFormChange} />
+            <div className="logstate">
+                <Login/>
             </div>
-            <button onClick={handleFormSubmit}>Edit</button>
-            <hr></hr>
-            <Link to='/'>Back to Todo List</Link>
+            <Typography variant='h5' component='h3' align='center'>
+                <br></br>
+                {todo.length > 0 && todo.map(data => <div key='id'>{data.content}</div>)}
+                <br></br>           
+                {/* <div className='inputContainer'>
+                    <input type="text" placeholder='Task..' name='task' value={newTodo} onChange={handleFormChange} />
+                </div> */}
+                <TextField required id="outlined-required" placeholder="Edit Task" value={newTodo} onChange={handleFormChange} />
+
+                {/* <button onClick={handleFormSubmit}>Edit</button> */}
+                <br></br>
+                <br></br>
+                <div>
+                    <Button onClick={handleFormSubmit} variant="contained" color="success">Edit</Button>
+                </div>
+                <Link to='/'><HomeIcon /></Link>
+            </Typography>
         </>
     )
 }
