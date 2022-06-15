@@ -42,9 +42,9 @@ export const Show = () => {
 
     return(
         <div>
-            <div className="logstate">
+            {/* <div className="logstate">
                 <Login/>
-            </div>
+            </div> */}
             <br></br>
             <Container>
                 <Typography variant="h5" component='h2' align='center'>
