@@ -8,6 +8,7 @@ import { createSvgIcon } from '@mui/material/utils';
 import { Typography } from "@mui/material";
 import { Container } from "@mui/system";
 import { Login } from "../Components/Login";
+import { useAppDispatch } from "../Components/hooks";
 
 const HomeIcon = createSvgIcon(
     <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />,
@@ -18,6 +19,9 @@ export const Show = () => {
 
     const { id } = useParams<string>()
     const [todo, setTodo] = useState<Array<iTodo>>([])
+
+    const dispatch = useAppDispatch()
+
 
     const instance = axios.create({
         baseURL: `http://localhost:3000/`
@@ -31,20 +35,11 @@ export const Show = () => {
         })
     }, [id])
 
-    const goHome = () => {
-        <Link to='/'>Back to Todo List</Link>
-    }
-
-    // useEffect(()=> {
-    //     console.log({id})
-    //     fetch(`/api/${ id }`).then(response => response.json()).then(data => setTodo(data))
-    // }, [id])
-
     return(
         <div>
-            {/* <div className="logstate">
+            <div className="logstate">
                 <Login/>
-            </div> */}
+            </div>
             <br></br>
             <Container>
                 <Typography variant="h5" component='h2' align='center'>

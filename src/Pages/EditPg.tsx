@@ -22,11 +22,6 @@ export const EditPg = () => {
         baseURL: `http://localhost:3000/`
     })
 
-    // useEffect(()=> {
-    //     console.log({id})
-    //     fetch(`/api/${ id }`).then(response => response.json()).then(data => setTodo(data))
-    // }, [id])
-
     useEffect(()=> {
         console.log({id})
         instance.get(`/api/${id}`).then(res => {

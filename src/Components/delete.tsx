@@ -1,7 +1,8 @@
 import Button from "@mui/material/Button";
-import axios from "axios";
 import React from "react";
 import  { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from "./hooks";
+import { deleteTodoAsync } from "./listSlice";
 
 
 interface Props {
@@ -11,9 +12,11 @@ interface Props {
 // id passed in as a prop when clicking on delete
 export const Delete = ({id}:Props) => {
 
-    const instance = axios.create({
-        baseURL: `http://localhost:3000/`
-    })
+    const dispatch = useAppDispatch()
+
+    // const instance = axios.create({
+    //     baseURL: `http://localhost:3000/`
+    // })
 
     const navigate = useNavigate()
     // const deleteTodo = () => {
@@ -29,15 +32,28 @@ export const Delete = ({id}:Props) => {
     //     })
     // }
 
-    const deleteTodo = async () => {
-        let res = await instance.post(`/api/${id}`,{id:id})
-        console.log(res)
-        navigate('/') //to push back to home page after deleting
+    const handleDelete = () => {
+        console.log('handling delete')
+        dispatch(deleteTodoAsync({
+            id:id
+        }))
+        console.log('navigating')
+        navigate('/')
     }
+
+    const goHome = () => {
+        navigate('/')
+    }
+
+    // const deleteTodo = async () => {
+    //     let res = await instance.post(`/api/${id}`,{id:id})
+    //     console.log(res)
+    //     navigate('/') //to push back to home page after deleting
+    // }
     return (
         <>
             {/* <button onClick={deleteTodo}>Delete</button> */}
-            <Button onClick={deleteTodo} variant ="contained" color="error">Done</Button>
+            <Button onClick={handleDelete} variant ="contained" color="error">Done</Button>
         </>
     )
 }

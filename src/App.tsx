@@ -8,7 +8,7 @@ import {
 import { TodoPage } from './Pages/TodoPage';
 import { Show } from './Pages/Show';
 import { EditPg } from './Pages/EditPg';
-import Test from './Pages/Test'
+import {Test} from './Pages/Test'
 
   function App() {
 
@@ -16,7 +16,7 @@ import Test from './Pages/Test'
       <div>
         <Router>
           <Routes>
-            <Route path = '/' element={<Test />} />
+            <Route path = '/' element={<TodoPage />} />
             <Route path = '/:id' element={<Show />} />
             <Route path = '/edit/:id' element={<EditPg />} />
           </Routes>

@@ -3,23 +3,21 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {configureStore} from "@reduxjs/toolkit";
-import{Provider, TypedUseSelectorHook, useSelector} from 'react-redux';
+import{Provider} from 'react-redux';
 import listReducer from './Components/listSlice'
-import { useDispatch } from 'react-redux';
+import userReducer from './Components/User'
+
 
 const store = configureStore({
   reducer: {
     list: listReducer,
+    user: userReducer,
   },
 })
 
 export type RootState = ReturnType<typeof store.getState>
 
 export type AppDispatch = typeof store.dispatch
-
-export const useAppDispatch: () => AppDispatch = useDispatch
-
-export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
 
 ReactDOM.render(
   <React.StrictMode>

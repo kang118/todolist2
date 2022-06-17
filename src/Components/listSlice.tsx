@@ -1,8 +1,7 @@
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import { getList, addTodo, updateTodo } from "./todoAPI";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import React from "react";
 import axios from "axios";
-import { iTodo } from '../Interfaces';
+import { useAppSelector } from "./hooks";
 
 const initialState:any[] = []
 
@@ -10,41 +9,38 @@ const instance = axios.create({
     baseURL: `http://localhost:3000/`
 })
 
+
 export const fetchList = createAsyncThunk('list/fetchLists', async() => {
     let test = await instance.get('/api')
     console.log(test)
-    console.log(typeof(test))
     console.log(test.data)
-    console.log(typeof(test.data))
+    //test.data is sent as action.payload to be fulfilled
     return test.data
 })
 
 export const addTodoAsync = createAsyncThunk('todos/addTodoAsync',
     async(payload:any) => {
-        console.log("IN add todo")
+        console.log("In add todo")
         console.log(payload)
-        let res:any = await instance.post('/api/create', {content: payload.task})
+        let res = await instance.post('/api/create', {content: payload.task})
         console.log(res)
         console.log(typeof res)
         console.log(payload.task)
-        return payload.task
-    })
+        console.log("Fetch List")
+        let testing = await instance.get('/api')
+        console.log(testing)
+        console.log(testing.data)
+        return testing.data
+})
 
-// export function addTodoAsync(x:any):any {
-//     createAsyncThunk('todos/addTodoAsync',
-//     async(x) => {
-//         let res:any = await instance.post('/api/create', {content: x})
-//         console.log(res)
-//         console.log(typeof res)
-//         return res
-//     })
-// } 
-
-// })
-
-// export const deleteTodoAsync = createAsyncThunk('todos/deleteTodoAsync', async(payload) => {
-//     let res = await instance.post(`/api/${id}`, {id:id})
-// }
+export const deleteTodoAsync = createAsyncThunk('todos/deleteTodoAsync',
+    async(payload:any) => {
+        console.log("Deleting todo")
+        console.log(payload)
+        let res = await instance.post(`/api/${payload.id}`, {id: payload.id})
+        console.log(res)
+        // navigate('/')
+})
 
 export const listSlice = createSlice({
     name: "list",
@@ -56,10 +52,6 @@ export const listSlice = createSlice({
             }
             state.push(todo)
         },
-
-        // delTask: (state) => {
-        //     state.value = initialStateValue;
-        // }
     },
     // extraReducers: {
     //     [fetchList.fulfilled]: (state, action) => {
@@ -69,7 +61,9 @@ export const listSlice = createSlice({
     extraReducers(builder) {
         builder.addCase(fetchList.fulfilled, (state, action:any) => {
             console.log("data fetched")
+            console.log(state)
             console.log(action.payload)
+            //return value is used to populate state in test.tsx
             return action.payload
         })
         .addCase(fetchList.pending, (state, action:any) => {
@@ -81,26 +75,16 @@ export const listSlice = createSlice({
         .addCase(addTodoAsync.fulfilled, (state, action) => {
             console.log("value added")
             console.log(action.payload)
-            state.push(action.payload)
+            // console.log(state)
+            // console.log(typeof state)
+            // console.log("Pushing")
+            // state.push(action.payload)
+            // console.log(state)
+            return action.payload
         })
     }
 })
-//     extraReducers(builder) {
-//         builder.addCase(fetchList.pending, (state, action: any) => {
-//             state.value.status = 'loading'
-//         })
-//         .addCase(fetchList.fulfilled, (state, action: any) => {
-//             state.value.status = 'succeeded'
-//             state.value=action.payload
-//         })
-//         .addCase(fetchList.rejected, (state, action) => {
-//             state.value.status = 'failed'
-//         })
-//     }
-// })
+
 
 export const {addTask} = listSlice.actions;
 export default listSlice.reducer;
-/*export const User = () => {
-    return <h3> Welcome User xxx </h3>
-}*/
