@@ -18,6 +18,15 @@ export const fetchList = createAsyncThunk('list/fetchLists', async() => {
     return test.data
 })
 
+export const fetchTodo = createAsyncThunk('todo/fetchTodo', async(payload:any) => {
+    let test = await instance.get(`/api/${payload.id}`)
+    console.log(test)
+    console.log(test.data)
+    console.log(typeof(test.data))
+    //test.data is sent as action.payload to be fulfilled
+    return test.data
+})
+
 export const addTodoAsync = createAsyncThunk('todos/addTodoAsync',
     async(payload:any) => {
         console.log("In add todo")
@@ -39,7 +48,18 @@ export const deleteTodoAsync = createAsyncThunk('todos/deleteTodoAsync',
         console.log(payload)
         let res = await instance.post(`/api/${payload.id}`, {id: payload.id})
         console.log(res)
-        // navigate('/')
+})
+
+export const editTodoAsync = createAsyncThunk('todos/editTodoAsync',
+    async(payload:any) => {
+        console.log("Editing todo")
+        console.log(payload)
+        let res = await instance.post(`/api/edit/${payload.id}`, {content: payload.edit, id:payload.id})
+        console.log(res)
+        let testing = await instance.get('/api')
+        console.log(testing)
+        console.log(testing.data)
+        return testing.data
 })
 
 export const listSlice = createSlice({
@@ -74,6 +94,19 @@ export const listSlice = createSlice({
         })
         .addCase(addTodoAsync.fulfilled, (state, action) => {
             console.log("value added")
+            console.log(action.payload)
+            // console.log(state)
+            // console.log(typeof state)
+            // console.log("Pushing")
+            // state.push(action.payload)
+            // console.log(state)
+            return action.payload
+        })
+        .addCase(editTodoAsync.pending, (state, action) => {
+            console.log("pending edit")
+        })
+        .addCase(editTodoAsync.fulfilled, (state, action) => {
+            console.log("value changed")
             console.log(action.payload)
             // console.log(state)
             // console.log(typeof state)

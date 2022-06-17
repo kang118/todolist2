@@ -21,6 +21,15 @@ body {
   align-items: center;
 }
 
+/* .currTask {
+  flex:30%;
+  background-color: rgb(155, 219, 219);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
+
 .logstate{
   text-align: right;
 }
