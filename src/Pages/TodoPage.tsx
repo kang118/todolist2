@@ -20,12 +20,9 @@ export const TodoPage = () => {
   const currList:any = useAppSelector((state)=> state.list)
     
   useEffect(() => {
-    console.log("rendering")
-    console.log("Checking currlist")
-    console.log(currList)
+
     dispatch(fetchList())
-    console.log("Checking currlist")
-    console.log(currList)
+
   }, [dispatch])
 
     
@@ -51,17 +48,6 @@ export const TodoPage = () => {
     reset()
   }
 
-  // const onSubmit = () => {
-  //   if (task) {
-  //     dispatch(
-  //       addTodoAsync({
-  //         task: task
-  //       }))
-  //     setTask('')
-  //   } else {
-  //     console.log("No value")
-  //   }
-  // }
 
 	return (
 		<>
@@ -70,7 +56,6 @@ export const TodoPage = () => {
       </div>
       <div className ="header">
             <div className = "loginform3">
-                {/* <form> */}
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <Container maxWidth="sm">
                         <Typography variant='h2' component='h2' align='center'>
@@ -80,8 +65,8 @@ export const TodoPage = () => {
                             // onChange={handleChange} 
                             // value={task} 
                             {...register("task1",{required:"Task is required."})}
-                            // error={Boolean(errors.task)}
-                            // helperText={errors.task?.message}
+                            error={Boolean(errors.task1)}
+                            helperText={errors.task1?.message}
                             style={{
                             backgroundColor: "white"
                             }}/>
