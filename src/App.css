@@ -1,4 +1,4 @@
-.App {
+/* .App {
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -10,17 +10,60 @@
 body {
   margin: 0%;
   padding: 0%;
-}
+}*/
 
 .header {
   flex:30%;
-  background-color: darkcyan;
+  /* background-color: rgb(155, 219, 219); */
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+.top {
+  /* flex:30%; */
+  background-color: rgb(164, 168, 168);
+  /* width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center; */
+}
+
+/* .currTask {
+  flex:30%;
+  background-color: rgb(155, 219, 219);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
+
+.buttons{
+  float: right;
+}
+
+.logstate{
+  text-align: right;
+}
+/*
+.id {
+  flex:30%;
+  background-color: rgb(166, 248, 173);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.input {
+  width: 60%;
+  justify-content: center;
+
+  background-color: rgb(255, 255, 255);
+}*/
+
+/*
 .header .inputContainer {
   display: flex;
   flex-direction: column;
@@ -92,4 +135,4 @@ body {
   border-bottom-right-radius: 8px;
   color: white;
   cursor: pointer;
-}
+} */

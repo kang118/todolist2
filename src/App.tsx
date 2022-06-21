@@ -8,6 +8,7 @@ import {
 import { TodoPage } from './Pages/TodoPage';
 import { Show } from './Pages/Show';
 import { EditPg } from './Pages/EditPg';
+import {Test} from './Pages/Test'
 
   function App() {
 
