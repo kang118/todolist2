@@ -9,3 +9,5 @@ To use this application:
 5. start a new terminal and run **npm start** to start your frontend server
 
 -> Take note backend server will show a 404 error, change the url to http://127.0.0.1:5000/api to see the current database
+
+THIS BRANCH IS THE BACKUP BRANCH CONTAINING FULLY FUNCTIONAL CODE
