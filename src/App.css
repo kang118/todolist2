@@ -14,11 +14,20 @@ body {
 
 .header {
   flex:30%;
-  background-color: rgb(155, 219, 219);
+  /* background-color: rgb(155, 219, 219); */
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.top {
+  /* flex:30%; */
+  background-color: rgb(164, 168, 168);
+  /* width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center; */
 }
 
 /* .currTask {
@@ -29,6 +38,10 @@ body {
   justify-content: center;
   align-items: center;
 } */
+
+.buttons{
+  float: right;
+}
 
 .logstate{
   text-align: right;

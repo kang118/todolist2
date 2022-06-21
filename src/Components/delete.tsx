@@ -53,7 +53,7 @@ export const Delete = ({id}:Props) => {
     return (
         <>
             {/* <button onClick={deleteTodo}>Delete</button> */}
-            <Button onClick={handleDelete} variant ="contained" color="error">Done</Button>
+            <Button onClick={handleDelete} variant ="contained" color="error">Delete</Button>
         </>
     )
 }

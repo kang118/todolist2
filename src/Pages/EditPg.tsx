@@ -48,7 +48,7 @@ export const EditPg = () => {
         //   console.log(res.data)
         //   setTodo(res.data)
         // })
-      },[newTodo])
+      },[dispatch])
 
     // const handleFormChange = (event: ChangeEvent<HTMLInputElement>): void => {
     //     setNewTodo(event.target.value)
@@ -86,9 +86,12 @@ export const EditPg = () => {
 
     return(
         <>
-            <div className="logstate">
-                <Login/>
+            <div className="top">
+                <br></br>
+                <br></br>
             </div>
+            <br></br>
+
             <div className="loginform3">
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <Typography variant='h5' component='h3' align='center'>

@@ -5,6 +5,7 @@ import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import { Divider } from '@mui/material';
 import Container from '@mui/material/Container';
+import { useAppSelector } from './hooks';
 
 
 interface Props {
@@ -12,6 +13,8 @@ interface Props {
 }
 
 export const Card = ({listOfTodos}:Props) => {
+    const curr:any = useAppSelector((state)=> state.list)
+
     return (
     <>
         <Stack divider={<Divider orientation="horizontal" flexItem/>} spacing={2}>
@@ -23,6 +26,8 @@ export const Card = ({listOfTodos}:Props) => {
                                 <Paper variant="outlined" sx={{
                                     backgroundColor:"#ef9a9a"
                                 }}>
+                                    {todo.id}
+                                    <br></br>
                                     {todo.content}
                                 </Paper>
                             </Link>
