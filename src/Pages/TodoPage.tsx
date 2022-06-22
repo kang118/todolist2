@@ -20,10 +20,14 @@ export const TodoPage = () => {
   const dispatch = useAppDispatch()
   const {register, handleSubmit, formState: {errors}, reset} = useForm();
   const navigate = useNavigate()
-  const currList:any = useAppSelector((state)=> state.list)
+  const currList:any = useAppSelector((state)=> state.list.list)
+  const currList2:any = useAppSelector((state)=> state.list.loading)
+
     
   useEffect(() => {
     dispatch(fetchList())
+    console.log(currList)
+    console.log(currList2)
   }, [dispatch])
 
   const onSubmit = async (data: any) => {

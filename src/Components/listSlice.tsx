@@ -2,7 +2,10 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import React from "react";
 import axios from "axios";
 
-const initialState:any[] = []
+const initialState:{loading:boolean, list:any} = {
+    loading: false,
+    list : []
+}
 
 const instance = axios.create({
     baseURL: `http://localhost:3000/`
@@ -56,14 +59,15 @@ export const listSlice = createSlice({
             const todo = {
                 content: action.payload.todo
             }
-            state.push(todo)
+            state.list.push(todo)
         },
     },
     extraReducers(builder) {
         builder.addCase(fetchList.fulfilled, (state, action:any) => {
             console.log("data fetched")
             console.log(action.payload)
-            return action.payload
+            state.list=action.payload
+            //return action.payload
         })
         .addCase(fetchList.pending, (state, action:any) => {
             console.log("pending data")
@@ -82,7 +86,8 @@ export const listSlice = createSlice({
         .addCase(addTodoAsync.fulfilled, (state, action) => {
             console.log("value added")
             console.log(action.payload)
-            return action.payload
+            state.list=action.payload
+            //return action.payload
         })
         .addCase(editTodoAsync.pending, (state, action) => {
             console.log("pending edit")
@@ -90,7 +95,8 @@ export const listSlice = createSlice({
         .addCase(editTodoAsync.fulfilled, (state, action) => {
             console.log("value changed")
             console.log(action.payload)
-            return action.payload
+            state.list=action.payload
+            //return action.payload
         })
     }
 })
