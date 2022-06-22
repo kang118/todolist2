@@ -2,7 +2,11 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import React from "react";
 import axios from "axios";
 
-const initialState:any[] = []
+const initialState:{list:any, selected:any, load:boolean} = {
+    list:[],
+    selected:null,
+    load: false
+}
 
 const instance = axios.create({
     baseURL: `http://localhost:3000/`
@@ -18,6 +22,7 @@ export const fetchList = createAsyncThunk('list/fetchLists', async() => {
 export const fetchTodo = createAsyncThunk('todo/fetchTodo', async(payload:any) => {
     let test = await instance.get(`/api/${payload.id}`)
     //test.data is sent as action.payload to be fulfilled
+    console.log(test)
     return test.data
 })
 
@@ -43,9 +48,10 @@ export const editTodoAsync = createAsyncThunk('todos/editTodoAsync',
         console.log("Editing todo")
         console.log(payload)
         let res = await instance.post(`/api/edit/${payload.id}`, {content: payload.edit, id:payload.id})
+        console.log(res)
         console.log(res.data)
         let testing = await instance.get('/api')
-        return testing.data
+        return payload.edit
 })
 
 export const listSlice = createSlice({
@@ -56,27 +62,49 @@ export const listSlice = createSlice({
             const todo = {
                 content: action.payload.todo
             }
-            state.push(todo)
+            state.list.push(todo)
         },
+        selectTask: (state, action) => {
+            const task = {
+                id: action.payload.id,
+                content: action.payload.content
+            }
+            state.selected = action.payload.content
+        }
+        // selectTask: (state, action) => {
+            
+        // }
     },
     extraReducers(builder) {
         builder.addCase(fetchList.fulfilled, (state, action:any) => {
             console.log("data fetched")
             console.log(action.payload)
-            state = action.payload
-            console.log(state)
-            return action.payload
+            return {
+                ...state,
+                load: true,
+                list: action.payload
+            }
+            // state.load = true
+            // state.list = action.payload
         })
         .addCase(fetchList.pending, (state, action:any) => {
             console.log("pending data")
         })
         .addCase(fetchTodo.pending, (state, action:any) => {
             console.log("pending todo")
+            return {
+                ...state,
+                load:false
+            }
         })
         .addCase(fetchTodo.fulfilled, (state, action:any) => {
             console.log("todo fetched")
             console.log(action.payload)
-            state= action.payload
+            return {
+                ...state,
+                load:true,
+                selected:action.payload[0].content
+            }
         })
         .addCase(addTodoAsync.pending, (state, action) => {
             console.log("pending save")
@@ -84,8 +112,7 @@ export const listSlice = createSlice({
         .addCase(addTodoAsync.fulfilled, (state, action) => {
             console.log("value added")
             console.log(action.payload)
-            state= action.payload
-            return action.payload
+            state.list = action.payload
         })
         .addCase(editTodoAsync.pending, (state, action) => {
             console.log("pending edit")
@@ -93,10 +120,14 @@ export const listSlice = createSlice({
         .addCase(editTodoAsync.fulfilled, (state, action) => {
             console.log("value changed")
             console.log(action.payload)
-            state=action.payload
+            return {
+                ...state,
+                load:true,
+                selected:action.payload
+            }
         })
     }
 })
 
-export const {addTask} = listSlice.actions;
+export const {addTask, selectTask} = listSlice.actions;
 export default listSlice.reducer;

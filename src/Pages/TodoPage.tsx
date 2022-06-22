@@ -20,7 +20,9 @@ export const TodoPage = () => {
   const dispatch = useAppDispatch()
   const {register, handleSubmit, formState: {errors}, reset} = useForm();
   const navigate = useNavigate()
-  const currList:any = useAppSelector((state)=> state.list)
+  const currList:any = useAppSelector((state)=> state.list.list)
+  const currState:any = useAppSelector((state)=> state.list.load)
+  //const currSelect:any = useAppSelector((state)=> state.list.selected)
     
   useEffect(() => {
     dispatch(fetchList())
@@ -36,8 +38,17 @@ export const TodoPage = () => {
   }
 
   //function to navigate to individual task page to delete/edit task
-  const taskLink = (id: any) => {
+  const taskLink = (id: any, content: string) => {
+    //dispatch(selectTask({id:id, content:content}))
     navigate(`/${id}`)
+  }
+
+  if (!currState) {
+    console.log("Currstate")
+    console.log(currState)
+    return (
+      <h1>Loading</h1>
+    )
   }
 
 	return (
@@ -85,7 +96,7 @@ export const TodoPage = () => {
               </TableHead>
               <TableBody>
                 {currList.map((row:any) => (
-                  <TableRow onClick={()=>taskLink(row.id)}
+                  <TableRow onClick={()=>taskLink(row.id, row.content)}
                     key={row.id}
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                   >
