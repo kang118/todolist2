@@ -24,6 +24,7 @@ export const TodoPage = () => {
     
   useEffect(() => {
     dispatch(fetchList())
+    console.log(currList)
   }, [dispatch])
 
   const onSubmit = async (data: any) => {

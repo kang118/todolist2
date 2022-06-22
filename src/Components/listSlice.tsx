@@ -63,6 +63,8 @@ export const listSlice = createSlice({
         builder.addCase(fetchList.fulfilled, (state, action:any) => {
             console.log("data fetched")
             console.log(action.payload)
+            state = action.payload
+            console.log(state)
             return action.payload
         })
         .addCase(fetchList.pending, (state, action:any) => {
@@ -74,7 +76,7 @@ export const listSlice = createSlice({
         .addCase(fetchTodo.fulfilled, (state, action:any) => {
             console.log("todo fetched")
             console.log(action.payload)
-            return action.payload
+            state= action.payload
         })
         .addCase(addTodoAsync.pending, (state, action) => {
             console.log("pending save")
@@ -82,6 +84,7 @@ export const listSlice = createSlice({
         .addCase(addTodoAsync.fulfilled, (state, action) => {
             console.log("value added")
             console.log(action.payload)
+            state= action.payload
             return action.payload
         })
         .addCase(editTodoAsync.pending, (state, action) => {
@@ -90,7 +93,7 @@ export const listSlice = createSlice({
         .addCase(editTodoAsync.fulfilled, (state, action) => {
             console.log("value changed")
             console.log(action.payload)
-            return action.payload
+            state=action.payload
         })
     }
 })
