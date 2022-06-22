@@ -5,13 +5,11 @@ import reportWebVitals from './reportWebVitals';
 import {configureStore} from "@reduxjs/toolkit";
 import{Provider} from 'react-redux';
 import listReducer from './Components/listSlice'
-import userReducer from './Components/User'
 
 
 const store = configureStore({
   reducer: {
     list: listReducer,
-    user: userReducer,
   },
 })
 

@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import React from "react";
 import axios from "axios";
-import { useAppSelector } from "./hooks";
 
 const initialState:any[] = []
 
@@ -12,17 +11,12 @@ const instance = axios.create({
 
 export const fetchList = createAsyncThunk('list/fetchLists', async() => {
     let test = await instance.get('/api')
-    console.log(test)
-    console.log(test.data)
     //test.data is sent as action.payload to be fulfilled
     return test.data
 })
 
 export const fetchTodo = createAsyncThunk('todo/fetchTodo', async(payload:any) => {
     let test = await instance.get(`/api/${payload.id}`)
-    console.log(test)
-    console.log(test.data)
-    console.log(typeof(test.data))
     //test.data is sent as action.payload to be fulfilled
     return test.data
 })
@@ -30,15 +24,9 @@ export const fetchTodo = createAsyncThunk('todo/fetchTodo', async(payload:any) =
 export const addTodoAsync = createAsyncThunk('todos/addTodoAsync',
     async(payload:any) => {
         console.log("In add todo")
-        console.log(payload)
         let res = await instance.post('/api/create', {content: payload.task})
         console.log(res)
-        console.log(typeof res)
-        console.log(payload.task)
-        console.log("Fetch List")
         let testing = await instance.get('/api')
-        console.log(testing)
-        console.log(testing.data)
         return testing.data
 })
 
@@ -55,10 +43,8 @@ export const editTodoAsync = createAsyncThunk('todos/editTodoAsync',
         console.log("Editing todo")
         console.log(payload)
         let res = await instance.post(`/api/edit/${payload.id}`, {content: payload.edit, id:payload.id})
-        console.log(res)
+        console.log(res.data)
         let testing = await instance.get('/api')
-        console.log(testing)
-        console.log(testing.data)
         return testing.data
 })
 
@@ -73,17 +59,10 @@ export const listSlice = createSlice({
             state.push(todo)
         },
     },
-    // extraReducers: {
-    //     [fetchList.fulfilled]: (state, action) => {
-    //         return action.payload.todos;
-    //     }
-    // }
     extraReducers(builder) {
         builder.addCase(fetchList.fulfilled, (state, action:any) => {
             console.log("data fetched")
-            console.log(state)
             console.log(action.payload)
-            //return value is used to populate state in test.tsx
             return action.payload
         })
         .addCase(fetchList.pending, (state, action:any) => {
@@ -95,11 +74,6 @@ export const listSlice = createSlice({
         .addCase(addTodoAsync.fulfilled, (state, action) => {
             console.log("value added")
             console.log(action.payload)
-            // console.log(state)
-            // console.log(typeof state)
-            // console.log("Pushing")
-            // state.push(action.payload)
-            // console.log(state)
             return action.payload
         })
         .addCase(editTodoAsync.pending, (state, action) => {
@@ -108,16 +82,10 @@ export const listSlice = createSlice({
         .addCase(editTodoAsync.fulfilled, (state, action) => {
             console.log("value changed")
             console.log(action.payload)
-            // console.log(state)
-            // console.log(typeof state)
-            // console.log("Pushing")
-            // state.push(action.payload)
-            // console.log(state)
             return action.payload
         })
     }
 })
-
 
 export const {addTask} = listSlice.actions;
 export default listSlice.reducer;

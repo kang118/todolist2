@@ -1,10 +1,8 @@
 import { Container } from '@mui/system';
-import React, {useState, ChangeEvent, useEffect} from 'react';
-import { Card } from '../Components/card';
+import React, {useEffect} from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { Grid, Paper, Typography } from '@mui/material';
-import {Login} from '../Components/Login';
 import { useForm } from 'react-hook-form';
 import { addTodoAsync, fetchList } from '../Components/listSlice';
 import { useAppDispatch, useAppSelector } from '../Components/hooks';
@@ -14,53 +12,32 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 export const TodoPage = () => {
+
   const dispatch = useAppDispatch()
-
   const {register, handleSubmit, formState: {errors}, reset} = useForm();
-
   const navigate = useNavigate()
-
-  const[task, setTask] = useState<string>("")
-
   const currList:any = useAppSelector((state)=> state.list)
     
   useEffect(() => {
-
     dispatch(fetchList())
-
   }, [dispatch])
 
-    
-  const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
-    //if event calling change is from task input
-    setTask(event.target.value)
-  }
-
-  // const onSubmit = () => {
-  //   dispatch(
-  //     addTodoAsync({
-  //       task: task
-  //     })
-  //     )
-  //   setTask('')
-  // }
   const onSubmit = async (data: any) => {
-    console.log(data)
-    console.log(data.task1)
+    console.log(data.task)
     dispatch(addTodoAsync({
-      task:data.task1
+      task:data.task
     }))
     reset()
   }
 
+  //function to navigate to individual task page to delete/edit task
   const taskLink = (id: any) => {
     navigate(`/${id}`)
   }
-
 
 	return (
 		<>
@@ -70,42 +47,32 @@ export const TodoPage = () => {
       </div>
       <br></br>
       <Container maxWidth="md">
-
         <div className ="header">
-              <div className = "inline">
-                  <form onSubmit={handleSubmit(onSubmit)}>
-                              <br></br>
-                              <Grid container>
-                                <Grid item xs={8}>
-                                  <Typography variant='h3' component='h2' align='center'>
-                                    <TextField label="Enter your Task"
-                                    //name="task1"
-                                    // onChange={handleChange} 
-                                    // value={task} 
-                                    {...register("task1",{required:"Task is required."})}
-                                    error={Boolean(errors.task1)}
-                                    helperText={errors.task1?.message}
-                                    style={{
-                                    backgroundColor: "white"
-                                    }}/>
-                                  </Typography>
-                                </Grid>
-                                <br></br>
-                                <Grid item xs={4}>
-                                  <Typography variant='h3' component='h3' align='center'>
-
-                                    <Button type='submit' variant ="contained" color="primary">Add Task</Button>
-                                  </Typography>
-                                </Grid>
-                              </Grid>
-                          
-                  </form>
-              </div>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <br></br>
+            <Grid container>
+              <Grid item xs={8}>
+                <Typography variant='h3' component='h2' align='center'>
+                  <TextField label="Enter your Task"
+                  {...register("task",{required:"Task is required."})}
+                  error={Boolean(errors.task)}
+                  helperText={errors.task?.message}
+                  style={{
+                  backgroundColor: "white"
+                  }}/>
+                </Typography>
+              </Grid>
+              <br></br>
+              <Grid item xs={4}>
+                <Typography variant='h3' component='h3' align='center'>
+                  <Button type='submit' variant ="contained" color="primary">Add Task</Button>
+                </Typography>
+              </Grid>
+            </Grid>
+          </form>
         </div>
         <br></br>
         <br></br>
-
-
         <div className="resultTable">
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
@@ -132,15 +99,6 @@ export const TodoPage = () => {
           </TableContainer>
         </div>
       </Container>
-
-
-           
-      {/* <div className="todoList">
-        <br></br>
-        <Typography variant='h6' component='h3' align='center'>
-          <Card listOfTodos={currList}/>  
-        </Typography>
-      </div> */}
     </>
 	);
 };
