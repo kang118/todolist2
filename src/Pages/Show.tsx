@@ -6,7 +6,7 @@ import { Button, Grid, TextField, Typography } from "@mui/material";
 import { Container } from "@mui/system";
 import { useAppDispatch, useAppSelector } from "../Components/hooks";
 import { useForm } from "react-hook-form";
-import { editTodoAsync } from "../Components/listSlice";
+import { editTodoAsync, fetchTodo } from "../Components/listSlice";
 import CompleteDialog from "../Components/CompleteDialog";
 
 const HomeIcon = createSvgIcon(
@@ -27,6 +27,14 @@ export const Show = () => {
         baseURL: `http://localhost:3000/`
     })
     
+    //when trying to call using createAsyncThunk, encounter an error on refresh due to data not loading in time
+    // useEffect(()=> {
+    //     dispatch(fetchTodo({id:id}))
+    //     console.log("in useeffect curr")
+    //     console.log(curr[0].content)
+    //     setTask(curr[0].content)
+    // }, [dispatch])
+
     useEffect(()=> {
         instance.get(`/api/${ id }`).then(res => {
             //res.data is an object containing the task
@@ -77,22 +85,20 @@ export const Show = () => {
                     <br></br>
                     <Grid container alignItems="flex-end">
                         <Grid item xs={4}>
-                            <Typography variant="subtitle1" component='h5' align='center'>
+                            <Typography variant="subtitle1" align='center'>
                                 <strong>
                                     Task:
                                 </strong>
                             </Typography>
                         </Grid>
                         <Grid item xs={8}>
-                            <Typography variant="subtitle1" component='h5' align='left'>
-                                <div className="todo1">
-                                        <TextField
-                                        variant="standard"
-                                        label={task}
-                                        {...register("editTask",{required:"Cannot be null"})}
-                                        error={Boolean(errors.editTask)}
-                                        helperText={errors.editTask?.message}/>
-                                </div>
+                            <Typography variant="subtitle1" align='left'>
+                                    <TextField
+                                    variant="standard"
+                                    label={task}
+                                    {...register("editTask",{required:"Cannot be null"})}
+                                    error={Boolean(errors.editTask)}
+                                    helperText={errors.editTask?.message}/>
                             </Typography>
                         </Grid>
                     </Grid>

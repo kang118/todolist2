@@ -68,6 +68,14 @@ export const listSlice = createSlice({
         .addCase(fetchList.pending, (state, action:any) => {
             console.log("pending data")
         })
+        .addCase(fetchTodo.pending, (state, action:any) => {
+            console.log("pending todo")
+        })
+        .addCase(fetchTodo.fulfilled, (state, action:any) => {
+            console.log("todo fetched")
+            console.log(action.payload)
+            return action.payload
+        })
         .addCase(addTodoAsync.pending, (state, action) => {
             console.log("pending save")
         })
