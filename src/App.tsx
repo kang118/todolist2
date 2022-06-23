@@ -1,12 +1,12 @@
 import React from 'react';
-import './App.css';
+
 import {
   BrowserRouter as Router,
   Routes,
   Route,
 } from "react-router-dom"
 import { TodoPage } from './Pages/TodoPage';
-import { Show } from './Pages/Show';
+import { IndivTask } from './Pages/IndivTask';
 
 
   function App() {
@@ -16,7 +16,7 @@ import { Show } from './Pages/Show';
         <Router>
           <Routes>
             <Route path = '/' element={<TodoPage />} />
-            <Route path = '/:id' element={<Show />} />
+            <Route path = '/:id' element={<IndivTask />} />
 
           </Routes>
         </Router>

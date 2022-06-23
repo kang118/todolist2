@@ -13,7 +13,39 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { useNavigate } from 'react-router-dom';
+import styled from '@emotion/styled';
 
+const StyledButton1 = styled(Button)`
+background-color:blue;
+&:hover {
+  background-color:darkblue;
+}
+color:white;
+height:100%;
+margin-left: 5px
+`
+
+const StyledDiv = styled.div`
+background-color: rgb(164, 168, 168);
+height:50px
+`
+
+const StyledDiv2 = styled.div`
+align-items:center;
+justify-content: center;
+display:flex;
+height: 150px
+`
+
+const StyledTableRow = styled(TableRow)`
+&:hover {
+  background-color:lightgrey;
+}
+`
+
+const StyledTableCell = styled(TableCell)`
+align:left
+`
 
 export const TodoPage = () => {
 
@@ -22,11 +54,9 @@ export const TodoPage = () => {
   const navigate = useNavigate()
   const currList:any = useAppSelector((state)=> state.list.list)
   const currState:any = useAppSelector((state)=> state.list.load)
-  //const currSelect:any = useAppSelector((state)=> state.list.selected)
     
   useEffect(() => {
     dispatch(fetchList())
-    console.log(currList)
   }, [dispatch])
 
   const onSubmit = async (data: any) => {
@@ -38,30 +68,23 @@ export const TodoPage = () => {
   }
 
   //function to navigate to individual task page to delete/edit task
-  const taskLink = (id: any, content: string) => {
-    //dispatch(selectTask({id:id, content:content}))
+  const taskLink = (id: any) => {
     navigate(`/${id}`)
   }
 
   if (!currState) {
-    console.log("Currstate")
     console.log(currState)
     return (
-      <h1>Loading</h1>
+      <h1>LOADING...</h1>
     )
   }
 
 	return (
 		<>
-      <div className="top">
-        <br></br>
-        <br></br>
-      </div>
-      <br></br>
+      <StyledDiv></StyledDiv>
       <Container maxWidth="md">
-        <div className ="header">
+        <StyledDiv2>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <br></br>
             <Grid container>
               <Grid item xs={8}>
                 <Typography variant='h3' component='h2' align='center'>
@@ -69,42 +92,35 @@ export const TodoPage = () => {
                   {...register("task",{required:"Task is required."})}
                   error={Boolean(errors.task)}
                   helperText={errors.task?.message}
-                  style={{
-                  backgroundColor: "white"
-                  }}/>
+                  />
                 </Typography>
               </Grid>
-              <br></br>
               <Grid item xs={4}>
-                <Typography variant='h3' component='h3' align='center'>
-                  <Button type='submit' variant ="contained" color="primary">Add Task</Button>
-                </Typography>
+                  <StyledButton1 type='submit'>Add Task</StyledButton1>
               </Grid>
             </Grid>
           </form>
-        </div>
-        <br></br>
-        <br></br>
+        </StyledDiv2>
+
         <div className="resultTable">
           <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+            <Table >
               <TableHead>
                 <TableRow>
                   <TableCell><strong>No.</strong></TableCell>
-                  <TableCell align="left"><strong>Task</strong></TableCell>
+                  <StyledTableCell><strong>Task</strong></StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {currList.map((row:any) => (
-                  <TableRow onClick={()=>taskLink(row.id, row.content)}
+                  <StyledTableRow onClick={()=>taskLink(row.id)}
                     key={row.id}
-                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                   >
                     <TableCell component="th" scope="row">
                       {row.id}
                     </TableCell>
-                    <TableCell align="left">{row.content}</TableCell>
-                  </TableRow>
+                    <StyledTableCell>{row.content}</StyledTableCell>
+                  </StyledTableRow>
                 ))}
               </TableBody>
             </Table>

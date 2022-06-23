@@ -8,6 +8,31 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { deleteTodoAsync } from './listSlice';
 import { useAppDispatch } from './hooks';
 import { useNavigate, useParams } from 'react-router-dom';
+import styled from "@emotion/styled"
+
+
+const StyledButton1 = styled(Button)`
+background-color:red;
+&:hover {
+  background-color:darkred;
+}
+color:white;
+`
+
+const StyledButton2 = styled(Button)`
+&:hover {
+  background-color:lightgrey;
+}
+color:blue;
+`
+
+const StyledButton3 = styled(Button)`
+background-color:blue;
+&:hover {
+  background-color:darkblue;
+}
+color:white;
+`
 
 export default function CompleteDialog() {
   const [open, setOpen] = React.useState(false);
@@ -35,9 +60,10 @@ export default function CompleteDialog() {
 
   return (
     <div>
-      <Button variant="contained" color="error" onClick={handleClickOpen}>
+      <StyledButton1  onClick={handleClickOpen}>
         Delete
-      </Button>
+      </StyledButton1>
+
       <Dialog
         open={open}
         onClose={handleClose}
@@ -53,10 +79,10 @@ export default function CompleteDialog() {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Back</Button>
-          <Button variant="contained" onClick={handleClose1} autoFocus>
+          <StyledButton2 onClick={handleClose}>Back</StyledButton2>
+          <StyledButton3 onClick={handleClose1} autoFocus>
             Continue
-          </Button>
+          </StyledButton3>
         </DialogActions>
       </Dialog>
     </div>

@@ -24,19 +24,11 @@ def index():
 
 @app.route("/api/create", methods=['POST'])
 def create():
-
     data = request.get_json(silent=True)
     item = data.get('content')
-    print(item)
-    print(type(item))
-    #print(request.data)
-    #print((json.loads(request.data))['data'])
-    #request_data = json.loads(request.data)
-    #todo = Todo(content = request_data['content'])
     todo = Todo(content = item)
     db.session.add(todo)
     db.session.commit()
-
     return {'201': 'todo created successfully'}
 
 @app.route('/api/<int:id>')
@@ -47,7 +39,6 @@ def show(id):
 def delete(id):
     data = request.get_json(silent=True)
     item = data.get('id')
-    #request_data= json.loads(request.data)
     Todo.query.filter_by(id=item).delete()
     db.session.commit()
     return {'204': 'Deleted Successfully'}
@@ -57,7 +48,6 @@ def edit(id):
     data = request.get_json(silent=True)
     content = data.get('content')
     editid = data.get('id')
-    #request_data= json.loads(request.data)
     edit = Todo.query.filter_by(id=editid).first()
     new_content = content
     edit.content = new_content

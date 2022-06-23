@@ -14,16 +14,15 @@ const instance = axios.create({
 
 
 export const fetchList = createAsyncThunk('list/fetchLists', async() => {
-    let test = await instance.get('/api')
+    let res = await instance.get('/api')
     //test.data is sent as action.payload to be fulfilled
-    return test.data
+    return res.data
 })
 
 export const fetchTodo = createAsyncThunk('todo/fetchTodo', async(payload:any) => {
-    let test = await instance.get(`/api/${payload.id}`)
+    let res = await instance.get(`/api/${payload.id}`)
     //test.data is sent as action.payload to be fulfilled
-    console.log(test)
-    return test.data
+    return res.data
 })
 
 export const addTodoAsync = createAsyncThunk('todos/addTodoAsync',
@@ -31,14 +30,13 @@ export const addTodoAsync = createAsyncThunk('todos/addTodoAsync',
         console.log("In add todo")
         let res = await instance.post('/api/create', {content: payload.task})
         console.log(res)
-        let testing = await instance.get('/api')
-        return testing.data
+        let res2 = await instance.get('/api')
+        return res2.data
 })
 
 export const deleteTodoAsync = createAsyncThunk('todos/deleteTodoAsync',
     async(payload:any) => {
         console.log("Deleting todo")
-        console.log(payload)
         let res = await instance.post(`/api/${payload.id}`, {id: payload.id})
         console.log(res)
 })
@@ -46,11 +44,8 @@ export const deleteTodoAsync = createAsyncThunk('todos/deleteTodoAsync',
 export const editTodoAsync = createAsyncThunk('todos/editTodoAsync',
     async(payload:any) => {
         console.log("Editing todo")
-        console.log(payload)
         let res = await instance.post(`/api/edit/${payload.id}`, {content: payload.edit, id:payload.id})
         console.log(res)
-        console.log(res.data)
-        let testing = await instance.get('/api')
         return payload.edit
 })
 
@@ -65,15 +60,8 @@ export const listSlice = createSlice({
             state.list.push(todo)
         },
         selectTask: (state, action) => {
-            const task = {
-                id: action.payload.id,
-                content: action.payload.content
-            }
             state.selected = action.payload.content
         }
-        // selectTask: (state, action) => {
-            
-        // }
     },
     extraReducers(builder) {
         builder.addCase(fetchList.fulfilled, (state, action:any) => {
@@ -84,8 +72,6 @@ export const listSlice = createSlice({
                 load: true,
                 list: action.payload
             }
-            // state.load = true
-            // state.list = action.payload
         })
         .addCase(fetchList.pending, (state, action:any) => {
             console.log("pending data")
@@ -112,7 +98,10 @@ export const listSlice = createSlice({
         .addCase(addTodoAsync.fulfilled, (state, action) => {
             console.log("value added")
             console.log(action.payload)
-            state.list = action.payload
+            return {
+                ...state,
+                list:action.payload
+            }
         })
         .addCase(editTodoAsync.pending, (state, action) => {
             console.log("pending edit")
