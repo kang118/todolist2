@@ -2,9 +2,9 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import React from "react";
 import axios from "axios";
 
-const initialState:{list:any, selected:any, load:boolean} = {
-    list:[],
-    selected:null,
+const initialState: {list: any, selected: any, load: boolean} = {
+    list: [],
+    selected: null,
     load: false
 }
 
@@ -19,14 +19,14 @@ export const fetchList = createAsyncThunk('list/fetchLists', async() => {
     return res.data
 })
 
-export const fetchTodo = createAsyncThunk('todo/fetchTodo', async(payload:any) => {
+export const fetchTodo = createAsyncThunk('todo/fetchTodo', async(payload: any) => {
     let res = await instance.get(`/api/${payload.id}`)
     //test.data is sent as action.payload to be fulfilled
     return res.data
 })
 
 export const addTodoAsync = createAsyncThunk('todos/addTodoAsync',
-    async(payload:any) => {
+    async(payload: any) => {
         console.log("In add todo")
         let res = await instance.post('/api/create', {content: payload.task})
         console.log(res)
@@ -35,21 +35,21 @@ export const addTodoAsync = createAsyncThunk('todos/addTodoAsync',
 })
 
 export const deleteTodoAsync = createAsyncThunk('todos/deleteTodoAsync',
-    async(payload:any) => {
+    async(payload: any) => {
         console.log("Deleting todo")
         let res = await instance.post(`/api/${payload.id}`, {id: payload.id})
         console.log(res)
 })
 
 export const editTodoAsync = createAsyncThunk('todos/editTodoAsync',
-    async(payload:any) => {
+    async(payload: any) => {
         console.log("Editing todo")
-        let res = await instance.post(`/api/edit/${payload.id}`, {content: payload.edit, id:payload.id})
+        let res = await instance.post(`/api/edit/${payload.id}`, {content: payload.edit, id: payload.id})
         console.log(res)
         return payload.edit
 })
 
-export const listSlice = createSlice({
+export const todoListSlice = createSlice({
     name: "list",
     initialState: initialState,
     reducers: {
@@ -64,7 +64,7 @@ export const listSlice = createSlice({
         }
     },
     extraReducers(builder) {
-        builder.addCase(fetchList.fulfilled, (state, action:any) => {
+        builder.addCase(fetchList.fulfilled, (state, action: any) => {
             console.log("data fetched")
             console.log(action.payload)
             return {
@@ -73,23 +73,23 @@ export const listSlice = createSlice({
                 list: action.payload
             }
         })
-        .addCase(fetchList.pending, (state, action:any) => {
+        .addCase(fetchList.pending, (state, action: any) => {
             console.log("pending data")
         })
-        .addCase(fetchTodo.pending, (state, action:any) => {
+        .addCase(fetchTodo.pending, (state, action: any) => {
             console.log("pending todo")
             return {
                 ...state,
-                load:false
+                load: false
             }
         })
-        .addCase(fetchTodo.fulfilled, (state, action:any) => {
+        .addCase(fetchTodo.fulfilled, (state, action: any) => {
             console.log("todo fetched")
             console.log(action.payload)
             return {
                 ...state,
-                load:true,
-                selected:action.payload[0].content
+                load: true,
+                selected: action.payload[0].content
             }
         })
         .addCase(addTodoAsync.pending, (state, action) => {
@@ -100,7 +100,7 @@ export const listSlice = createSlice({
             console.log(action.payload)
             return {
                 ...state,
-                list:action.payload
+                list: action.payload
             }
         })
         .addCase(editTodoAsync.pending, (state, action) => {
@@ -111,12 +111,11 @@ export const listSlice = createSlice({
             console.log(action.payload)
             return {
                 ...state,
-                load:true,
-                selected:action.payload
+                load: true,
+                selected: action.payload
             }
         })
     }
 })
 
-export const {addTask, selectTask} = listSlice.actions;
-export default listSlice.reducer;
+export default todoListSlice.reducer;

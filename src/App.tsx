@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {
   BrowserRouter as Router,
   Routes,
@@ -17,7 +15,6 @@ import { IndivTask } from './Pages/IndivTask';
           <Routes>
             <Route path = '/' element={<TodoPage />} />
             <Route path = '/:id' element={<IndivTask />} />
-
           </Routes>
         </Router>
       </div>

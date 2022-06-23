@@ -5,33 +5,33 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { deleteTodoAsync } from './listSlice';
-import { useAppDispatch } from './hooks';
+import { deleteTodoAsync } from '../Slices/todoListSlice';
+import { useAppDispatch } from '../hooks';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from "@emotion/styled"
 
 
-const StyledButton1 = styled(Button)`
-background-color:red;
+const StyledDeleteButton = styled(Button)`
+background-color: red;
 &:hover {
-  background-color:darkred;
+  background-color: darkred;
 }
-color:white;
+color: white;
 `
 
-const StyledButton2 = styled(Button)`
+const StyledBackButton = styled(Button)`
 &:hover {
-  background-color:lightgrey;
+  background-color: lightgrey;
 }
-color:blue;
+color: blue;
 `
 
-const StyledButton3 = styled(Button)`
-background-color:blue;
+const StyledConfirmButton = styled(Button)`
+background-color: blue;
 &:hover {
-  background-color:darkblue;
+  background-color: darkblue;
 }
-color:white;
+color: white;
 `
 
 export default function CompleteDialog() {
@@ -48,41 +48,38 @@ export default function CompleteDialog() {
     setOpen(false);
   };
 
-  const handleClose1 = () => {
+  const handleComplete = () => {
     setOpen(false);
     console.log('handling delete')
     dispatch(deleteTodoAsync({
-        id:id
+        id: id
     }))
-    console.log('navigating')
     navigate('/')
   }
 
   return (
     <div>
-      <StyledButton1  onClick={handleClickOpen}>
+      <StyledDeleteButton onClick = {handleClickOpen}>
         Delete
-      </StyledButton1>
+      </StyledDeleteButton>
 
       <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
+        open = {open}
+        onClose = {handleClose}
       >
-        <DialogTitle id="alert-dialog-title">
+        <DialogTitle>
           {"Complete Task?"}
         </DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
+          <DialogContentText>
             This action cannot be undone
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <StyledButton2 onClick={handleClose}>Back</StyledButton2>
-          <StyledButton3 onClick={handleClose1} autoFocus>
+          <StyledBackButton onClick = {handleClose}>Back</StyledBackButton>
+          <StyledConfirmButton onClick = {handleComplete} autoFocus>
             Continue
-          </StyledButton3>
+          </StyledConfirmButton>
         </DialogActions>
       </Dialog>
     </div>
