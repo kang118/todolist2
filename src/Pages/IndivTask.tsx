@@ -48,7 +48,6 @@ export const IndivTask = () => {
     }, [])
 
     const handleFormSubmit = async(data: any) =>{
-        console.log(data)
         //call api to edit current task data
         dispatch(editTodoAsync({
             id: id,

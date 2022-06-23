@@ -50,7 +50,6 @@ export default function CompleteDialog() {
 
   const handleComplete = () => {
     setOpen(false);
-    console.log('handling delete')
     dispatch(deleteTodoAsync({
         id: id
     }))

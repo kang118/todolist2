@@ -27,7 +27,6 @@ export const fetchTodo = createAsyncThunk('todo/fetchTodo', async(payload: any) 
 
 export const addTodoAsync = createAsyncThunk('todos/addTodoAsync',
     async(payload: any) => {
-        console.log("In add todo")
         let res = await instance.post('/api/create', {content: payload.task})
         console.log(res)
         let res2 = await instance.get('/api')
@@ -36,14 +35,12 @@ export const addTodoAsync = createAsyncThunk('todos/addTodoAsync',
 
 export const deleteTodoAsync = createAsyncThunk('todos/deleteTodoAsync',
     async(payload: any) => {
-        console.log("Deleting todo")
         let res = await instance.post(`/api/${payload.id}`, {id: payload.id})
         console.log(res)
 })
 
 export const editTodoAsync = createAsyncThunk('todos/editTodoAsync',
     async(payload: any) => {
-        console.log("Editing todo")
         let res = await instance.post(`/api/edit/${payload.id}`, {content: payload.edit, id: payload.id})
         console.log(res)
         return payload.edit
@@ -65,7 +62,7 @@ export const todoListSlice = createSlice({
     },
     extraReducers(builder) {
         builder.addCase(fetchList.fulfilled, (state, action: any) => {
-            console.log("data fetched")
+            console.log("Data fetched")
             console.log(action.payload)
             return {
                 ...state,
@@ -74,17 +71,17 @@ export const todoListSlice = createSlice({
             }
         })
         .addCase(fetchList.pending, (state, action: any) => {
-            console.log("pending data")
+            console.log("Pending data")
         })
         .addCase(fetchTodo.pending, (state, action: any) => {
-            console.log("pending todo")
+            console.log("Pending todo")
             return {
                 ...state,
                 load: false
             }
         })
         .addCase(fetchTodo.fulfilled, (state, action: any) => {
-            console.log("todo fetched")
+            console.log("Todo fetched")
             console.log(action.payload)
             return {
                 ...state,
@@ -93,10 +90,10 @@ export const todoListSlice = createSlice({
             }
         })
         .addCase(addTodoAsync.pending, (state, action) => {
-            console.log("pending save")
+            console.log("Pending add")
         })
         .addCase(addTodoAsync.fulfilled, (state, action) => {
-            console.log("value added")
+            console.log("Value added")
             console.log(action.payload)
             return {
                 ...state,
@@ -104,10 +101,10 @@ export const todoListSlice = createSlice({
             }
         })
         .addCase(editTodoAsync.pending, (state, action) => {
-            console.log("pending edit")
+            console.log("Pending change")
         })
         .addCase(editTodoAsync.fulfilled, (state, action) => {
-            console.log("value changed")
+            console.log("Value changed")
             console.log(action.payload)
             return {
                 ...state,
