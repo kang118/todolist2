@@ -52,14 +52,14 @@ export const TodoPage = () => {
   const dispatch = useAppDispatch()
   const {register, handleSubmit, formState: {errors}, reset} = useForm();
   const navigate = useNavigate()
-  const currList: any = useAppSelector((state)=> state.list.list)
-  const currState: any = useAppSelector((state)=> state.list.load)
+  const listOfTodos: any = useAppSelector((state)=> state.list.list)
+  const loadState: any = useAppSelector((state)=> state.list.load)
     
   useEffect(() => {
     dispatch(fetchList())
   }, [dispatch])
 
-  const onSubmit = async (data: any) => {
+  const handleFormSubmit = async (data: any) => {
     console.log(data.task)
     dispatch(addTodoAsync({
       task: data.task
@@ -68,12 +68,12 @@ export const TodoPage = () => {
   }
 
   //function to navigate to individual task page to delete/edit task
-  const taskLink = (id: any) => {
+  const handleLink = (id: any) => {
     navigate(`/${id}`)
   }
 
-  if (!currState) {
-    console.log(currState)
+  if (!loadState) {
+    console.log(loadState)
     return (
       <h1>LOADING...</h1>
     )
@@ -84,7 +84,7 @@ export const TodoPage = () => {
       <StyledGreyHeaderDiv/>
       <Container maxWidth = "md">
         <StyledInputDiv>
-          <form onSubmit = {handleSubmit(onSubmit)}>
+          <form onSubmit = {handleSubmit(handleFormSubmit)}>
             <Grid container>
               <Grid item xs = {8}>
                 <Typography variant = 'h3' align = 'center'>
@@ -112,8 +112,8 @@ export const TodoPage = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {currList.map((row: any) => (
-                  <StyledTableRow onClick = {() => taskLink(row.id)}
+                {listOfTodos.map((row: any) => (
+                  <StyledTableRow onClick = {() => handleLink(row.id)}
                     key = {row.id}
                   >
                     <TableCell component = "th" scope = "row">
