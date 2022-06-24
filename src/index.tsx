@@ -4,17 +4,16 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {configureStore} from "@reduxjs/toolkit";
 import{Provider} from 'react-redux';
-import listReducer from './Components/listSlice'
+import todoListReducer from './Slices/todoListSlice'
 
 
 const store = configureStore({
   reducer: {
-    list: listReducer,
+    list: todoListReducer,
   },
 })
 
 export type RootState = ReturnType<typeof store.getState>
-
 export type AppDispatch = typeof store.dispatch
 
 ReactDOM.render(

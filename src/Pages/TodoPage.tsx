@@ -4,8 +4,8 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { Grid, Paper, Typography } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { addTodoAsync, fetchList } from '../Components/listSlice';
-import { useAppDispatch, useAppSelector } from '../Components/hooks';
+import { addTodoAsync, fetchList } from '../Slices/todoListSlice';
+import { useAppDispatch, useAppSelector } from '../hooks';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -13,16 +13,53 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { useNavigate } from 'react-router-dom';
+import styled from '@emotion/styled';
 
+const StyledAddButton = styled(Button)`
+background-color: blue;
+&:hover {
+  background-color: darkblue;
+}
+color: white;
+height: 100%;
+margin-left: 5px
+`
+
+const StyledGreyHeaderDiv = styled.div`
+background-color: rgb(164, 168, 168);
+height: 50px
+`
+
+const StyledInputDiv = styled.div`
+align-items: center;
+justify-content: center;
+display: flex;
+height: 150px
+`
+
+const StyledTableRow = styled(TableRow)`
+&:hover {
+  background-color: lightgrey;
+}
+`
+
+const StyledTableCell = styled(TableCell)`
+align: left
+`
 
 export const TodoPage = () => {
 
   const dispatch = useAppDispatch()
   const {register, handleSubmit, formState: {errors}, reset} = useForm();
   const navigate = useNavigate()
+<<<<<<< HEAD
   const currList:any = useAppSelector((state)=> state.list.list)
   const currList2:any = useAppSelector((state)=> state.list.loading)
 
+=======
+  const listOfTodos: any = useAppSelector((state)=> state.list.list)
+  const loadState: any = useAppSelector((state)=> state.list.load)
+>>>>>>> master
     
   useEffect(() => {
     dispatch(fetchList())
@@ -30,73 +67,68 @@ export const TodoPage = () => {
     console.log(currList2)
   }, [dispatch])
 
-  const onSubmit = async (data: any) => {
+  const handleFormSubmit = async (data: any) => {
     console.log(data.task)
     dispatch(addTodoAsync({
-      task:data.task
+      task: data.task
     }))
     reset()
   }
 
   //function to navigate to individual task page to delete/edit task
-  const taskLink = (id: any) => {
+  const handleLink = (id: any) => {
     navigate(`/${id}`)
+  }
+
+  if (!loadState) {
+    console.log(loadState)
+    return (
+      <h1>LOADING...</h1>
+    )
   }
 
 	return (
 		<>
-      <div className="top">
-        <br></br>
-        <br></br>
-      </div>
-      <br></br>
-      <Container maxWidth="md">
-        <div className ="header">
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <br></br>
+      <StyledGreyHeaderDiv/>
+      <Container maxWidth = "md">
+        <StyledInputDiv>
+          <form onSubmit = {handleSubmit(handleFormSubmit)}>
             <Grid container>
-              <Grid item xs={8}>
-                <Typography variant='h3' component='h2' align='center'>
-                  <TextField label="Enter your Task"
-                  {...register("task",{required:"Task is required."})}
-                  error={Boolean(errors.task)}
-                  helperText={errors.task?.message}
-                  style={{
-                  backgroundColor: "white"
-                  }}/>
+              <Grid item xs = {8}>
+                <Typography variant = 'h3' align = 'center'>
+                  <TextField label = "Enter your Task"
+                  {...register("task",{required: "Task is required."})}
+                  error = {Boolean(errors.task)}
+                  helperText = {errors.task?.message}
+                  />
                 </Typography>
               </Grid>
-              <br></br>
-              <Grid item xs={4}>
-                <Typography variant='h3' component='h3' align='center'>
-                  <Button type='submit' variant ="contained" color="primary">Add Task</Button>
-                </Typography>
+              <Grid item xs = {4}>
+                  <StyledAddButton type = 'submit'>Add Task</StyledAddButton>
               </Grid>
             </Grid>
           </form>
-        </div>
-        <br></br>
-        <br></br>
-        <div className="resultTable">
-          <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+        </StyledInputDiv>
+
+        <div className = "resultTable">
+          <TableContainer component = {Paper}>
+            <Table >
               <TableHead>
                 <TableRow>
                   <TableCell><strong>No.</strong></TableCell>
-                  <TableCell align="left"><strong>Task</strong></TableCell>
+                  <StyledTableCell><strong>Task</strong></StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {currList.map((row:any) => (
-                  <TableRow onClick={()=>taskLink(row.id)}
-                    key={row.id}
-                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                {listOfTodos.map((row: any) => (
+                  <StyledTableRow onClick = {() => handleLink(row.id)}
+                    key = {row.id}
                   >
-                    <TableCell component="th" scope="row">
+                    <TableCell component = "th" scope = "row">
                       {row.id}
                     </TableCell>
-                    <TableCell align="left">{row.content}</TableCell>
-                  </TableRow>
+                    <StyledTableCell>{row.content}</StyledTableCell>
+                  </StyledTableRow>
                 ))}
               </TableBody>
             </Table>
